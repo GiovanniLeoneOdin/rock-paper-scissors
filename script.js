@@ -2,17 +2,20 @@ let humanChoice = undefined;
 let computerChoice = undefined;
 let humanScore = 0;
 let computerScore = 0;
+let round = 0;
 
-getHumanInput();
+playRound();
 
-function getHumanInput() {
-    let string = prompt("Enter either rock, paper or scissors").toLowerCase();
+function getHumanInput(promptMessage) {
+    //use case sensitive string for comparisons
+    let string = prompt(promptMessage).toLowerCase();
     if (string === "rock" || string === "paper" || string === "scissors") {
+        //clear console of previous round strings
+        console.clear();
         humanChoice = string;
-        console.log("Good choice");
         getComputerInput();
     } else {
-        console.log("What the heck is that dummy, enter a valid answer");
+        getHumanInput("What the heck is that, enter a valid prompt");
     }
 }
 
@@ -31,24 +34,75 @@ function getComputerInput() {
 }
 
 function checkWinner(humanChoice, computerChoice) {
-    console.log(`The human chooses ${humanChoice} and the computer chooses ${computerChoice}`);
+    console.log(`You chose ${humanChoice} and the computer chose ${computerChoice}`);
     if (humanChoice == computerChoice) {
         console.log("Tied");
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
+
         //humanChoice equals rock
-    } else if (humanChoice == "rock" && computerChoice =="scissors") {
+    } else if (humanChoice == "rock" && computerChoice == "scissors") {
         console.log("You won this round");
+        humanScore++
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
     } else if (humanChoice == "rock" && computerChoice == "paper"){
         console.log("The computer mogged you");
+        computerScore++;
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
+
         //humanChoice equals paper
     } else if (humanChoice == "paper" && computerChoice == "rock"){
         console.log("You won this round");
+        humanScore++
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
     } else if (humanChoice == "paper" && computerChoice == "scissors"){
         console.log("The computer mogged you");
+        computerScore++;
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
+
         //humanChoice equals scissors
     } else if (humanChoice == "scissors" && computerChoice == "paper"){
         console.log("You won this round");
+        humanScore++
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
     } else if (humanChoice == "scissors" && computerChoice == "rock"){
         console.log("The computer mogged you");
+        computerScore++;
+        console.log(`Your score: ${humanScore}`);
+        console.log(`Computer score: ${computerScore}`);
     }
 
+    repeatRound();
+
+}
+
+function repeatRound() {
+    //reset game after round = 5;
+    if (round === 5) {
+        console.log("Game over");
+        if (humanScore > computerScore) {
+            console.log("You won!")
+        } else if (computerScore > humanScore) {
+            console.log("Wow, the computer mogged you this time lil bro");
+        } else {
+            console.log("You tied with the computer, not too sad I guess.")
+        }
+        humanScore = 0;
+        computerScore = 0;
+        round = 0;
+        playRound();
+    } else {
+        playRound()
+    }
+}
+
+function playRound() {
+    round++;
+    console.log(`Round ${round}`);
+    getHumanInput("Enter either rock, paper or scissors");
 }
